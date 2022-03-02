@@ -49,7 +49,7 @@ productosCtrl.getProducto = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 }
-
+// hola 
 productosCtrl.updateProducto = async (req, res) => {
     try {
       let { sku, nombre, descripcion, precio, stock, imagen, idCategoria } = req.body;
