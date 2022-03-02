@@ -22,7 +22,7 @@ create table `productos`(
     `sku` varchar(200),
     `nombre` varchar(100),
     `descripcion` varchar(100),
-    `precio` decimal(4, 2),
+    `precio` decimal(14, 2),
     `stock` int(11),
     `imagen` text,
     `createdAt` TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
