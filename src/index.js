@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(cors({origin: 'http://localhost:8100'})); // Ruta del front
 
 // Routes
+app.use('/api/uploads', require('./routes/uploads.routes'));
 app.use('/api/productos', require('./routes/productos.routes'));
 app.use('/api/usuarios', require('./routes/usuarios.routes'))
 
