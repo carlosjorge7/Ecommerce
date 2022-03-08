@@ -4,13 +4,15 @@ const mysqlConn = require('../database');
 
 productosCtrl.createProducto = async (req, res) => {
     try {
-        await mysqlConn.query('INSERT INTO productos SET ?', [req.body], (err) => {
-            if (!err) {
-                res.status(200).json({message: 'Producto guardado'});
-            } else {
-                res.status(401).json({ message: err })
-            }
-        });
+      const { sku, nombre, descripcion, precio, stock, idCategoria } = req.body;
+      const nuevoProducto = { sku, nombre, descripcion, precio, stock, imagen: req.file.path, idCategoria};
+      await mysqlConn.query('INSERT INTO productos SET ?', [nuevoProducto], (err) => {
+          if (!err) {
+              res.status(200).json({message: 'Producto guardado'});
+          } else {
+              res.status(401).json({ message: err })
+          }
+      });
     }
     catch (error) {
         res.status(500).json({ message: 'Server error' });

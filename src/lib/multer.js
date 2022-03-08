@@ -1,4 +1,3 @@
-const uploadCtrl = {};
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -12,15 +11,4 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-uploadCtrl.upload = upload.single('myFile');
-
-uploadCtrl.uploadFile = (req, res) => {
-  console.log(req.file);
-  res.status(200).json({ message: 'Imagen guardada' });
-}
-
-uploadCtrl.getUpload = (req, res) => {
-  
-}
-
-module.exports = uploadCtrl;
+module.exports = upload;
