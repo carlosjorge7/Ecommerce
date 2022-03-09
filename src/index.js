@@ -3,19 +3,23 @@ const morgan = require('morgan');
 const cors = require('cors');
 const path = require('path');
 
-const app = express();
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+const options = require('./lib/swaggerOptions');
 
-require('dotenv').config();
+const app = express();
 
 // Settings
 app.set('port', process.env.PORT || 7777);
 
-// Middlewares (morgan: nos da info del tipo de peticiones)
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(cors({origin: ''})); // Ruta del front
+app.use(cors({origin: ''}));
+
+const swaggerDocs = swaggerJsDoc(options);
 
 // Routes
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use('/api/productos', require('./routes/productos.routes'));
 app.use('/api/usuarios', require('./routes/usuarios.routes'));
 
