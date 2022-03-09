@@ -1,10 +1,12 @@
 const express = require('express');
 const productosCtrl = require('../controllers/productos.controller');
 const router = express.Router();
-//const uploadCtrl = require('../controllers/upload.controller');
 
+// Upload
 const upload = require('../lib/multer.js');
-const verifyTokenUsuario = require('../controllers/verify.token');
+
+// Verify token for admins
+const verifyTokenUsuario = require('../lib/verify.token');
 
 // Gestion de productos
 router.post('/', verifyTokenUsuario, upload.single('imagen'), productosCtrl.createProducto); // Pendiente de probar
