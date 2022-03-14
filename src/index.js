@@ -14,7 +14,7 @@ app.set('port', process.env.PORT || 7777);
 
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(cors({origin: ''}));
+app.use(cors({origin: 'http://localhost:4200'}));
 
 const swaggerDocs = swaggerJsDoc(options);
 
