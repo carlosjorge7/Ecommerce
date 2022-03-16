@@ -22,6 +22,7 @@ const swaggerDocs = swaggerJsDoc(options);
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use('/api/productos', require('./routes/productos.routes'));
 app.use('/api/usuarios', require('./routes/usuarios.routes'));
+app.use('/api/clientes', require('./routes/clientes.routes'));
 
 // Uploads
 app.use('/uploads', express.static(path.resolve('uploads')));
