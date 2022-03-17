@@ -6,23 +6,27 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 clientesCtrl.registroCliente = async (req, res) => {
-  // comprobar que no haya duplicados
-    try {
-        req.body.contrasena = bcrypt.hashSync(req.body.contrasena, 10)
-        await mysqlConn.query('INSERT INTO clientes SET ?', [req.body]);
-      
-        const cliente = await getEmail(req.body.email);
+  try {
+    const cliente = await getEmail(req.body.email);
+    if(cliente === undefined) {
+      // Registramos un cliente
+      req.body.contrasena = bcrypt.hashSync(req.body.contrasena, 10)
+      await mysqlConn.query('INSERT INTO clientes SET ?', [req.body]);
+    
+      const nuevo = await getEmail(req.body.email);
 
-        const token = jwt.sign({ id: req.body.idCliente }, 'secret_cliente', {
-          expiresIn: 60 * 60 * 24 // 1 dia en segundos
-        });
-        // IMPORTANTE !! Hay que sacar el idCliente de alguna manera
-        res.status(200).json({ auth: false, token: token, message: `Bienvenido ${req.body.nombreCompleto}`, idCliente: cliente.idCliente});
-      
-      }
-      catch (error) {
-        res.status(500).json({ message: 'Server error' });
-      }
+      const token = jwt.sign({ id: req.body.idCliente }, 'secret_cliente', {
+        expiresIn: 60 * 60 * 24 // 1 dia en segundos
+      });
+      // IMPORTANTE !! Hay que sacar el idCliente de alguna manera
+      res.status(200).json({ auth: false, token: token, message: `Bienvenido ${req.body.nombreCompleto}`, idCliente: nuevo.idCliente});
+    } else {
+      // Ya existe el cliente
+      res.status(401).json({ message: 'El cliente ya existe' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
 }
 
 clientesCtrl.loginCliente = async (req, res) => {
