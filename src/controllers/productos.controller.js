@@ -56,7 +56,7 @@ productosCtrl.updateProducto = async (req, res) => {
     try {
       let { sku, nombre, descripcion, precio, stock, imagen, idCategoria } = req.body;
       const { idProducto } = req.params;
-      await mysqlConn.query('UPDATE productos SET sku = ?, nombre = ?, descripcion = ?, precio = ?, stock = ?, imagen = ?, idCategoria = ? WHERE idProducto = ?', [sku, nombre ,descripcion, precio,, stock, imagen, idCategoria , idProducto], (err) => {
+      await mysqlConn.query('UPDATE productos SET sku = ?, nombre = ?, descripcion = ?, precio = ?, stock = ?, idCategoria = ? WHERE idProducto = ?', [sku, nombre ,descripcion, precio, stock, idCategoria , idProducto], (err) => {
         if (!err) {
           res.status(200).json({ message: 'Producto actualizado' })
         }
