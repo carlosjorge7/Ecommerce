@@ -54,7 +54,7 @@ productosCtrl.getProducto = async (req, res) => {
 
 productosCtrl.updateProducto = async (req, res) => {
     try {
-      let { sku, nombre, descripcion, precio, stock, imagen, idCategoria } = req.body;
+      let { sku, nombre, descripcion, precio, stock, idCategoria } = req.body;
       const { idProducto } = req.params;
       await mysqlConn.query('UPDATE productos SET sku = ?, nombre = ?, descripcion = ?, precio = ?, stock = ?, idCategoria = ? WHERE idProducto = ?', [sku, nombre ,descripcion, precio, stock, idCategoria , idProducto], (err) => {
         if (!err) {
@@ -73,7 +73,11 @@ productosCtrl.updateProducto = async (req, res) => {
 productosCtrl.deleteProducto = async (req, res) => {
     try {
       const { idProducto } = req.params;
-      await mysqlConn.query('DELETE FROM productos WHERE idProducto = ?', [idProducto], (err) => {
+
+      // Tenemos que deslinkear la imagen asociada
+      
+
+      await mysqlConn.query('DELETE FROM productos WHERE idProducto = ?', [idProducto], (err, row) => {
         if (!err) {
           res.status(200).json({ message: 'Producto borrado' });
         }
