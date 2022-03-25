@@ -2,6 +2,9 @@ const productosCtrl = {}
 
 const mysqlConn = require('../database');
 
+const path = require('path');
+const fs = require('fs-extra');
+
 productosCtrl.createProducto = async (req, res) => {
     try {
       const { sku, nombre, descripcion, precio, stock, idCategoria } = req.body;
@@ -73,9 +76,13 @@ productosCtrl.updateProducto = async (req, res) => {
 productosCtrl.deleteProducto = async (req, res) => {
     try {
       const { idProducto } = req.params;
-
-      // Tenemos que deslinkear la imagen asociada
-      
+      // Deslinkear la imagen asociada
+      await mysqlConn.query('SELECT imagen FROM productos WHERE idProducto = ?', [idProducto], (err, row) => {
+        if (!err) {
+          const imagen = row[0]['imagen'];
+          fs.unlink(path.resolve(imagen));
+        }
+      });
 
       await mysqlConn.query('DELETE FROM productos WHERE idProducto = ?', [idProducto], (err, row) => {
         if (!err) {
