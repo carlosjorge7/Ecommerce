@@ -21,6 +21,7 @@ const swaggerDocs = swaggerJsDoc(options);
 // Routes
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use('/api/productos', require('./routes/productos.routes'));
+app.use('/api/categorias', require('./routes/categorias.routes'));
 app.use('/api/usuarios', require('./routes/usuarios.routes'));
 app.use('/api/clientes', require('./routes/clientes.routes'));
 
