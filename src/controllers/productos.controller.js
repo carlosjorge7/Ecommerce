@@ -24,7 +24,10 @@ productosCtrl.createProducto = async (req, res) => {
 
 productosCtrl.getProductos = async (req, res) => {
   try {
-    await mysqlConn.query('SELECT * FROM productos', (err, rows) => {
+    let qry = `SELECT p.idProducto, p.nombre, p.descripcion, p.precio, p.imagen, p.stock, p.createdAt, c.nombre as nombreCategoria
+              FROM productos p LEFT JOIN categorias c ON p.idCategoria = c.idCategoria
+              ORDER BY p.idProducto`;
+    await mysqlConn.query(qry, (err, rows) => {
       if (!err) {
         res.status(200).json(rows);
       }
@@ -40,8 +43,12 @@ productosCtrl.getProductos = async (req, res) => {
 
 productosCtrl.getProducto = async (req, res) => {
     try {
+        let qry = `SELECT p.idProducto, p.nombre, p.descripcion, p.precio, p.imagen, p.stock, p.createdAt, c.nombre as nombreCategoria, c.idCategoria
+                  FROM productos p LEFT JOIN categorias c ON p.idCategoria = c.idCategoria
+                  WHERE p.idProducto = ?
+                  ORDER BY p.idProducto`;
         const { idProducto } = req.params;
-        await mysqlConn.query('SELECT * FROM productos WHERE idProducto = ?', [idProducto], (err, row) => {
+        await mysqlConn.query(qry, [idProducto], (err, row) => {
           if (!err) {
             res.status(200).json(row[0]);
           }
