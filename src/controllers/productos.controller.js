@@ -24,7 +24,7 @@ productosCtrl.createProducto = async (req, res) => {
 
 productosCtrl.getProductos = async (req, res) => {
   try {
-    let qry = `SELECT p.idProducto, p.nombre, p.descripcion, p.precio, p.imagen, p.stock, p.createdAt, c.nombre as nombreCategoria
+    let qry = `SELECT p.idProducto, p.nombre, p.sku, p.descripcion, p.precio, p.imagen, p.stock, p.createdAt, c.nombre as nombreCategoria
               FROM productos p LEFT JOIN categorias c ON p.idCategoria = c.idCategoria
               ORDER BY p.idProducto`;
     await mysqlConn.query(qry, (err, rows) => {
