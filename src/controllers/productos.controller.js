@@ -43,7 +43,7 @@ productosCtrl.getProductos = async (req, res) => {
 
 productosCtrl.getProducto = async (req, res) => {
     try {
-        let qry = `SELECT p.idProducto, p.nombre, p.descripcion, p.precio, p.imagen, p.stock, p.createdAt, c.nombre as nombreCategoria, c.idCategoria
+        let qry = `SELECT p.idProducto, p.sku, p.nombre, p.descripcion, p.precio, p.imagen, p.stock, p.createdAt, c.nombre as nombreCategoria, c.idCategoria
                   FROM productos p LEFT JOIN categorias c ON p.idCategoria = c.idCategoria
                   WHERE p.idProducto = ?
                   ORDER BY p.idProducto`;
